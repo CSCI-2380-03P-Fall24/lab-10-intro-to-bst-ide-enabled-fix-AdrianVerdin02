@@ -8,11 +8,19 @@ class Node {
 		// the Node should contain
 		// 	- an integer "key" that holds the value of the Node
 		// 	- a pointer to each child possible child node ("right" and "left")
+		int key;
+		Node *left;
+		Node *right;
 
 
 		// Write a constructor for the Node
 		// input: only an integer value for "key", no pointer arguments
 		// 		right and left pointers should be null
+		Node (int k) {
+			key = k;
+			left = nullptr;
+			right = nullptr;
+		}
 
 };
 
@@ -21,19 +29,31 @@ class Node {
 // {7, 0, 18, -2, 6, 13, 21, -1, 12, 15, 19, 99}
 Node* createTree() {
     // root (level 0)
-    Node *root = nullptr;
+    Node *root = new Node(7);
 
     // level 1 (children of root)
+	root->left = new Node(0);
+	root->right = new Node(18);
 
     // level 2 (children of 0)
+	root->left->left = new Node(-2);
+	root->left->right = new Node(6);
 
     // level 2 (children of 18)
+	root->right->left = new Node(13);
+	root->right->right = new Node(21);
 
     // level 3 (children of -2)
+	root->left->left->right = new Node(-1);
 
     // level 3 (children of 13)
+	root->right->left->left = new Node(12);
+	root->right->left->right = new Node(15);
 
     // level 3 (children of 21)
+	root->right->right->left = new Node(19);
+	root->right->right->right = new Node(99);
+	
 
 	
     return root;
@@ -46,9 +66,20 @@ Node* createTree() {
 // You should write this function recursively! What is the base case? What is the general case?
 bool searchTree(int target, Node* root) {
 	// Base cases
-	return false;
+	if (root->left == nullptr && root->right == nullptr) {
+		return false;
+	}
 
 	// General case
+	if (root->key == target) {
+		return true;
+	}
+	else if (root->key > target && root->left != nullptr) {
+		return searchTree(target, root->left);
+	}
+	else if (root->key < target && root->right != nullptr) {
+		return searchTree(target, root->right);
+	}
 	return false;
 	
 }
