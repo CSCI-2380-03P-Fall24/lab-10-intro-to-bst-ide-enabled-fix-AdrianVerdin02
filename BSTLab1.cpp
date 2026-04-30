@@ -66,22 +66,22 @@ Node* createTree() {
 // You should write this function recursively! What is the base case? What is the general case?
 bool searchTree(int target, Node* root) {
 	// Base cases
-	if (root->left == nullptr && root->right == nullptr) {
+	if (root == nullptr) {
 		return false;
 	}
 
 	// General case
-	if (root->key == target) {
+	if(target == root->key) {
 		return true;
 	}
-	else if (root->key > target && root->left != nullptr) {
-		return searchTree(target, root->left);
-	}
-	else if (root->key < target && root->right != nullptr) {
+	
+	if(target > root->key) {
 		return searchTree(target, root->right);
 	}
+	else{
+		return searchTree(target, root->left);
+	}	
 	return false;
-	
 }
 
 // Write a function that will return the total number of Nodes in the tree
@@ -90,11 +90,14 @@ bool searchTree(int target, Node* root) {
 // You should write this function recursively!
 int treeSize(Node* root) {
 	// base case
-	return -1;
+	if (root == nullptr)
+	return 0;
 
 	// General case
-	return -1;
+	int numLeft = treeSize(root->left);
+	int numRight = treeSize(root->right);
 
+	return numLeft + numRight + 1;
 }
 
 
@@ -102,17 +105,32 @@ int treeSize(Node* root) {
 // A leaf is a node with no children.
 int countLeaves(Node* root) {
 	// base case
-	return -1;
+	if (root == nullptr)
+	return 0;
 
 	// General case
-	return -1;
+	if (root->left == nullptr && root->right == nullptr) {
+		return 1;
+	}
+	
+	return countLeaves(root->left) + countLeaves(root->right);
 }
 
 // BONUS! Write a function that will determine the height of the tree
 int treeHeight(Node* root) {
 	// base case
+	if(root == nullptr)
 	return -1;
 
 	// General case
-	return -1;
+	int leftHeight = treeHeight(root->left);
+	int rightHeight = treeHeight(root->right);
+	int highest = 0;
+
+	if(leftHeight >= rightHeight) {
+		highest = leftHeight;
+	} else {
+		highest = rightHeight;
+	}
+	return 1 + highest;
 }
